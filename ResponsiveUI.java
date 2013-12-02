@@ -1,23 +1,34 @@
-public class ResponsiveUI implements Runnable {
+import java.util.*;
 
-	private long duration;
-	public ResponsiveUI(long duration) {
-		this.duration = duration;
-	}
+public class ResponsiveUI {
+
+	private String output="Finished tasks ";
+	private ParallelTask p1 = null;
 	
-	public void run() {
-		// this is where the logic to be threaded goes
-		Thread.sleep(this.duration);
-		System.out.println("Finished task " + this.duration);
-	}
-	
-	public static void main(String[] args) {
-		for (int i=0;i<10;i++) {
+	public void launch() {
+		boolean waitingYet=false;
+		for (int i=0; i<10;i++) {
 			System.out.println("Enter the duration (in ms) of task " + i);
-			Long duration = Long.parseLong(System.console().readLine());
-			Runnable r = new ResponsiveUI(duration);
-			Thread t = new Thread(r);
-			t.start();
+			int duration = Integer.parseInt(System.console().readLine());
+			p1 = new ParallelTask(i+1,duration,this);	
+			Thread t1 = new Thread(p1);
+			t1.start();
+			checkForCompleteTasks();
 		}
+	}
+	
+	public void reportComplete(int id) {
+		output=output+id+" ";
+	}
+	
+	public void checkForCompleteTasks() {
+		System.out.println(output);
+		output="Finished tasks ";
+		
+	}
+		
+	public static void main(String[] args) {
+		ResponsiveUI script = new ResponsiveUI();
+		script.launch();
 	}
 }

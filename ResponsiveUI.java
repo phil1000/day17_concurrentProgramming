@@ -6,7 +6,6 @@ public class ResponsiveUI {
 	private ParallelTask p1 = null;
 	
 	public void launch() {
-		boolean waitingYet=false;
 		for (int i=0; i<10;i++) {
 			System.out.println("Enter the duration (in ms) of task " + i);
 			int duration = Integer.parseInt(System.console().readLine());
